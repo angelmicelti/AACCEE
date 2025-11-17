@@ -2,7 +2,7 @@
   "name": "Actividades Extraescolares - IES Virgen de Villadiego",
   "short_name": "Actividades Extraescolares",
   "description": "Aplicación para gestionar y visualizar las actividades extraescolares del IES Virgen de Villadiego",
-  "start_url": "/",
+  "start_url": "/AACCEE/",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#06b6d4",
