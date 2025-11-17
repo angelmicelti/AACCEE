@@ -1,4 +1,4 @@
-const CACHE_NAME = 'actividades-v1';
+const CACHE_NAME = 'actividades-v2';
 const urlsToCache = [
   '/',
   '/index.html',
