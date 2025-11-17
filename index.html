@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- Añade esto dentro del <head> -->
 	<link rel="manifest" href="manifest.json">
 	<meta name="theme-color" content="#06b6d4">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -11,13 +10,11 @@
     <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-16x16.png">
 
 
-	<!-- Para iOS -->
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="default">
 	<meta name="apple-mobile-web-app-title" content="Actividades Extraescolares">
 	<link rel="apple-touch-icon" href="icons/icon-152x152.png">
 	
-    <!-- Para Apple devices -->
     <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180x180.png">
 
 
@@ -47,7 +44,6 @@
 </head>
 <body class="min-h-screen">
     <div class="container mx-auto px-4 py-6">
-        <!-- Encabezado -->
         <header class="text-center mb-10">
             <h1 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">
                 Actividades Extraescolares
@@ -57,55 +53,77 @@
             </h2>
         </header>
 
-        <!-- Barra de Filtros -->
-        <div class="mb-10">
-            <div class="glass rounded-xl p-4 shadow-lg">
-                <div class="flex flex-col md:flex-row gap-4">
-                    <!-- Filtro de Nivel -->
-                    <div class="flex-1">
-                        <label for="filtro-nivel" class="block text-sm font-medium text-gray-400 mb-1">Nivel:</label>
-                        <select id="filtro-nivel" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white">
-                            <option value="Todos">Todos los niveles</option>
-                            <option value="1º ESO">1º ESO</option>
-                            <option value="2º ESO">2º ESO</option>
-                            <option value="3º ESO">3º ESO</option>
-                            <option value="4º ESO">4º ESO</option>
-                        </select>
-                    </div>
-    
-                    <!-- Filtro de Organizador -->
-                    <div class="flex-1">
-                        <label for="filtro-organizador" class="block text-sm font-medium text-gray-400 mb-1">Organizador:</label>
-                        <select id="filtro-organizador" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white" multiple size="3">
-                            <option value="Todos" selected>Todos los organizadores</option>
-                        </select>
-                    </div>
+        <div class="mb-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <div class="md:col-span-2">
+                <div class="glass rounded-xl p-4 shadow-lg">
                     
-                    <!-- Checkbox Naturaleza -->
-                    <div class="flex items-center gap-2">
-                        <input id="filtro-naturaleza" type="checkbox" checked class="w-5 h-5 text-green-500 bg-gray-700 border-gray-600 rounded">
-                        <label for="filtro-naturaleza" class="text-gray-200">Mostrar Taller de Naturaleza</label>
-                    </div>
-                </div>
-                
-                <!-- Contador y reset -->
-                <div class="mt-4 flex justify-between items-center">
-                    <div id="contador-resultados" class="text-sm text-gray-400">
-                        <span id="numero-actividades">0</span> actividades encontradas
-                    </div>
-                    <button id="reset-filtros" class="text-sm text-cyan-400 hover:text-cyan-300">
-                        Restablecer filtros
+                    <button id="filtro-toggle-btn" class="w-full text-left flex justify-between items-center pb-4 mb-4 border-b border-gray-700 text-gray-200 hover:text-cyan-400 focus:outline-none">
+                        <h2 class="text-xl font-bold">Filtros de Actividades</h2>
+                        <i id="filtro-toggle-icon" class="fas fa-chevron-down transition-transform duration-300 text-cyan-400"></i>
                     </button>
-                </div>
+
+                    <div id="filtro-content" class="hidden"> 
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            
+                            <div class="flex-1 md:col-span-4">
+                                <label for="filtro-nivel" class="block text-sm font-medium text-gray-400 mb-1">Nivel:</label>
+                                <select id="filtro-nivel" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white">
+                                    <option value="Todos">Todos los niveles</option>
+                                    <option value="1º ESO">1º ESO</option>
+                                    <option value="2º ESO">2º ESO</option>
+                                    <option value="3º ESO">3º ESO</option>
+                                    <option value="4º ESO">4º ESO</option>
+                                </select>
+                            </div>
+            
+                            <div class="flex-1 md:col-span-4">
+                                <label for="filtro-trimestre" class="block text-sm font-medium text-gray-400 mb-1">Evaluación/Trimestre:</label>
+                                <select id="filtro-trimestre" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white">
+                                    <option value="Todos">Todos los trimestres</option>
+                                    </select>
+                            </div>
+
+                            <div class="flex-1 md:col-span-4">
+                                <label for="filtro-organizador" class="block text-sm font-medium text-gray-400 mb-1">Organizador:</label>
+                                <select id="filtro-organizador" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white" multiple size="3">
+                                    <option value="Todos" selected>Todos los organizadores</option>
+                                </select>
+                            </div>
+                            
+                            <div class="md:col-span-4 flex items-center pt-2">
+                                <div class="flex items-center gap-2">
+                                    <input id="filtro-naturaleza" type="checkbox" checked class="w-5 h-5 text-green-500 bg-gray-700 border-gray-600 rounded">
+                                    <label for="filtro-naturaleza" class="text-gray-200">Mostrar Taller de Naturaleza</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 flex justify-between items-center">
+                            <div id="contador-resultados" class="text-sm text-gray-400">
+                                <span id="numero-actividades">0</span> actividades encontradas
+                            </div>
+                            <button id="reset-filtros" class="text-sm text-cyan-400 hover:text-cyan-300">
+                                Restablecer filtros
+                            </button>
+                        </div>
+                    </div> </div>
+            </div>
+
+            <div class="md:col-span-1">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfSrvLhOJt-Wjh1KyWOBwlOG5I8EHhq1qWxkPpb2MWM5ZaexQ/viewform?usp=preview" target="_blank" class="block h-full">
+                    <div class="glass rounded-xl p-4 shadow-lg h-full flex flex-col justify-center items-center text-center hover:bg-gray-800/70 transition duration-200 border-cyan-400 hover:border-2 border">
+                        <i class="fas fa-file-lines text-5xl text-cyan-400 mb-3"></i> 
+                        <h3 class="text-lg font-bold text-gray-100">Formulario Memoria Actividad Extraescolar</h3>
+                        <p class="text-sm text-gray-400 mt-1">Abrir en Google Forms</p>
+                    </div>
+                </a>
             </div>
         </div>
 
-        <!-- Lista de Actividades -->
         <main id="lista-actividades" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-            <!-- Las actividades aparecerán aquí -->
-        </main>
+            </main>
 
-        <!-- Mensaje de "No hay resultados" -->
         <div id="no-resultados" class="hidden text-center py-10">
             <div class="max-w-md mx-auto">
                 <i class="fas fa-search text-4xl text-gray-600 mb-4"></i>
@@ -115,7 +133,6 @@
         </div>
     </div>
 
-    <!-- Pie de página -->
     <footer class="text-center text-gray-500 text-sm py-6">
         2025 - Ángel Millán León
     </footer>
@@ -129,7 +146,7 @@
                 niveles: ["1º ESO"],
                 organizador: ["Departamento de Ciencias Naturales", "Departamento de Educación Física", "Departamento de Geografía e Historia"],
                 tipo: "Extraescolar",
-                trimestre: "1º Trimestre"
+                trimestre: "Primer Trimestre" // MODIFICADO
             },
             {
                 id: 2,
@@ -137,7 +154,7 @@
                 niveles: ["2º ESO"],
                 organizador: ["Departamento de Geografía e Historia", "Departamento de Matemáticas"],
                 tipo: "Extraescolar",
-                trimestre: "1º Trimestre"
+                trimestre: "Primer Trimestre" // MODIFICADO
             },
             {
                 id: 3,
@@ -145,7 +162,7 @@
                 niveles: ["3º ESO"],
                 organizador: ["Departamento de Geografía e Historia", "Departamento de Dibujo"],
                 tipo: "Extraescolar",
-                trimestre: "1º Trimestre"
+                trimestre: "Primer Trimestre" // MODIFICADO
             },
             {
                 id: 4,
@@ -153,7 +170,7 @@
                 niveles: ["4º ESO"],
                 organizador: ["Departamento de Geografía e Historia"],
                 tipo: "Extraescolar",
-                trimestre: "1º Trimestre"
+                trimestre: "Primer Trimestre" // MODIFICADO
             },
             {
                 id: 5,
@@ -169,7 +186,7 @@
                 niveles: ["1º ESO"],
                 organizador: ["Departamento de Música"],
                 tipo: "Extraescolar",
-                trimestre: "2º Trimestre"
+                trimestre: "Segundo Trimestre" // MODIFICADO
             },
             {
                 id: 7,
@@ -177,7 +194,7 @@
                 niveles: ["2º ESO"],
                 organizador: ["Departamento de Geografía e Historia"],
                 tipo: "Extraescolar",
-                trimestre: "2º Trimestre"
+                trimestre: "Segundo Trimestre" // MODIFICADO
             },
             {
                 id: 8,
@@ -185,7 +202,7 @@
                 niveles: ["3º ESO"],
                 organizador: ["Departamento de Lengua", "Departamento de Geografía e Historia"],
                 tipo: "Extraescolar",
-                trimestre: "2º Trimestre"
+                trimestre: "Segundo Trimestre" // MODIFICADO
             },
             {
                 id: 9,
@@ -193,7 +210,7 @@
                 niveles: ["3º ESO"],
                 organizador: ["Departamento de Lengua", "Departamento de Tecnología"],
                 tipo: "Extraescolar",
-                trimestre: "2º Trimestre"
+                trimestre: "Segundo Trimestre" // MODIFICADO
             },
             {
                 id: 10,
@@ -201,7 +218,7 @@
                 niveles: ["4º ESO"],
                 organizador: ["Departamento de Lengua", "Departamento de Geografía e Historia", "Departamento de Dibujo"],
                 tipo: "Extraescolar",
-                trimestre: "2º Trimestre"
+                trimestre: "Segundo Trimestre" // MODIFICADO
             },
             {
                 id: 11,
@@ -209,7 +226,7 @@
                 niveles: ["1º ESO"],
                 organizador: ["Departamento de Educación Física"],
                 tipo: "Extraescolar",
-                trimestre: "2º Trimestre"
+                trimestre: "Segundo Trimestre" // MODIFICADO
             },
             {
                 id: 12,
@@ -217,7 +234,7 @@
                 niveles: ["2º ESO"],
                 organizador: ["Departamento de Educación Física"],
                 tipo: "Extraescolar",
-                trimestre: "1º Trimestre"
+                trimestre: "Primer Trimestre" // MODIFICADO
             },
             {
                 id: 13,
@@ -225,7 +242,7 @@
                 niveles: ["3º ESO"],
                 organizador: ["Departamento de Educación Física"],
                 tipo: "Extraescolar",
-                trimestre: "2º Trimestre"
+                trimestre: "Segundo Trimestre" // MODIFICADO
             },
             {
                 id: 14,
@@ -233,7 +250,7 @@
                 niveles: ["4º ESO"],
                 organizador: ["Departamento de Educación Física"],
                 tipo: "Extraescolar",
-                trimestre: "2º Trimestre"
+                trimestre: "Segundo Trimestre" // MODIFICADO
             },
             {
                 id: 15,
@@ -241,7 +258,7 @@
                 niveles: ["1º ESO"],
                 organizador: ["Departamento de Geografía e Historia", "Departamento de Dibujo"],
                 tipo: "Extraescolar",
-                trimestre: "3º Trimestre"
+                trimestre: "Tercer Trimestre" // MODIFICADO
             },
             {
                 id: 16,
@@ -249,7 +266,7 @@
                 niveles: ["2º ESO"],
                 organizador: ["Departamento de Geografía e Historia", "Departamento de Dibujo"],
                 tipo: "Extraescolar",
-                trimestre: "3º Trimestre"
+                trimestre: "Tercer Trimestre" // MODIFICADO
             },
             {
                 id: 17,
@@ -257,7 +274,7 @@
                 niveles: ["3º ESO"],
                 organizador: ["Departamento de Ciencias Naturales", "Departamento de Inglés", "Departamento de Tecnología"],
                 tipo: "Extraescolar",
-                trimestre: "3º Trimestre"
+                trimestre: "Tercer Trimestre" // MODIFICADO
             },
             {
                 id: 18,
@@ -265,7 +282,7 @@
                 niveles: ["4º ESO"],
                 organizador: ["Departamento de Matemáticas", "Departamento de Tecnología", "Departamento de Ciencias Naturales"],
                 tipo: "Extraescolar",
-                trimestre: "3º Trimestre"
+                trimestre: "Tercer Trimestre" // MODIFICADO
             },
             {
                 id: 19,
@@ -368,11 +385,17 @@
         // Referencias a elementos del DOM
         const filtroNivel = document.getElementById('filtro-nivel');
         const filtroOrganizador = document.getElementById('filtro-organizador');
+        const filtroTrimestre = document.getElementById('filtro-trimestre'); 
         const filtroNaturaleza = document.getElementById('filtro-naturaleza');
         const listaActividades = document.getElementById('lista-actividades');
         const noResultados = document.getElementById('no-resultados');
         const numeroActividades = document.getElementById('numero-actividades');
         const resetFiltros = document.getElementById('reset-filtros');
+        
+        // NUEVAS REFERENCIAS PARA EL TOGGLE
+        const filtroToggleBtn = document.getElementById('filtro-toggle-btn');
+        const filtroToggleIcon = document.getElementById('filtro-toggle-icon');
+        const filtroContent = document.getElementById('filtro-content'); 
 
         // Función para poblar el filtro de organizadores
         function poblarFiltroOrganizadores() {
@@ -390,6 +413,34 @@
                 filtroOrganizador.appendChild(option);
             });
         }
+        
+        // Función para poblar el filtro de trimestres (MODIFICADO)
+        function poblarFiltroTrimestre() {
+            const trimestres = [...new Set(actividades.map(a => a.trimestre))].sort((a, b) => {
+                // MODIFICADO: Ordenar por los nuevos nombres de trimestre
+                const order = { 
+                    'Primer Trimestre': 1, 
+                    'Segundo Trimestre': 2, 
+                    'Tercer Trimestre': 3, 
+                    'Semana de Andalucía': 4, 
+                    'Varios': 5 
+                };
+                return (order[a] || 99) - (order[b] || 99);
+            });
+            
+            // Limpiar opciones existentes (excepto la primera)
+            while (filtroTrimestre.options.length > 1) {
+                filtroTrimestre.remove(1);
+            }
+            
+            trimestres.forEach(trimestre => {
+                const option = document.createElement('option');
+                option.value = trimestre;
+                option.textContent = trimestre;
+                filtroTrimestre.appendChild(option);
+            });
+        }
+
 
         // Función para crear una tarjeta de actividad
         function createActivityCard(actividad) {
@@ -404,7 +455,7 @@
                         <span class="inline-block ${tipoColor} text-white text-xs font-semibold px-2 py-1 rounded">
                             ${actividad.tipo}
                         </span>
-                        <span class="text-xs text-gray-400">${actividad.trimestre}</span>
+                        <span class="text-xs text-gray-400">${actividad.trimestre}</span> 
                     </div>
                     <h3 class="font-semibold text-gray-100 mb-3">${actividad.titulo}</h3>
                     <p class="text-sm text-gray-400 mb-2">
@@ -426,6 +477,7 @@
         // Función principal para renderizar actividades
         function renderActividades() {
             const nivelSeleccionado = filtroNivel.value;
+            const trimestreSeleccionado = filtroTrimestre.value; 
             const mostrarNaturaleza = filtroNaturaleza.checked;
             
             // Obtener organizadores seleccionados
@@ -435,14 +487,22 @@
 
             // Filtrar actividades
             const actividadesFiltradas = actividades.filter(actividad => {
+                // Filtro de Naturaleza
                 if (!mostrarNaturaleza && actividad.tipo === 'Naturaleza') {
                     return false;
                 }
                 
+                // Filtro de Nivel
                 if (nivelSeleccionado !== 'Todos' && !actividad.niveles.includes(nivelSeleccionado)) {
                     return false;
                 }
                 
+                // Filtro de Trimestre
+                if (trimestreSeleccionado !== 'Todos' && actividad.trimestre !== trimestreSeleccionado) {
+                    return false;
+                }
+
+                // Filtro de Organizador
                 if (selectedOrgs.length > 0) {
                     const hasMatch = actividad.organizador.some(org => selectedOrgs.includes(org));
                     if (!hasMatch) {
@@ -476,6 +536,7 @@
         // Función para restablecer filtros
         function resetearFiltros() {
             filtroNivel.value = 'Todos';
+            filtroTrimestre.value = 'Todos'; 
             filtroNaturaleza.checked = true;
             
             // Deseleccionar todas las opciones excepto "Todos"
@@ -486,15 +547,34 @@
             renderActividades();
         }
 
+        // FUNCIÓN DE TOGGLE DE FILTROS 
+        function toggleFiltros() {
+            filtroContent.classList.toggle('hidden');
+            
+            if (filtroContent.classList.contains('hidden')) {
+                // Si está oculto, muestra la flecha hacia abajo
+                filtroToggleIcon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+            } else {
+                // Si está visible, muestra la flecha hacia arriba
+                filtroToggleIcon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+            }
+        }
+
         // Event listeners
         filtroNivel.addEventListener('change', renderActividades);
         filtroOrganizador.addEventListener('change', renderActividades);
+        filtroTrimestre.addEventListener('change', renderActividades); 
         filtroNaturaleza.addEventListener('change', renderActividades);
         resetFiltros.addEventListener('click', resetearFiltros);
+        
+        // EVENT LISTENER PARA EL TOGGLE
+        filtroToggleBtn.addEventListener('click', toggleFiltros);
+
 
         // Inicializar
         document.addEventListener('DOMContentLoaded', () => {
             poblarFiltroOrganizadores();
+            poblarFiltroTrimestre(); 
             renderActividades();
         });
     </script>
