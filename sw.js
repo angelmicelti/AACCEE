@@ -2,7 +2,10 @@ const CACHE_NAME = 'actividades-v1';
 const urlsToCache = [
   '/',
   '/index.html',
-  // Incluimos los CDN que usamos
+  '/favicon.ico',
+  '/icons/icon-16x16.png',
+  '/icons/icon-32x32.png',
+  // ... otros recursos
   'https://cdn.tailwindcss.com',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
 ];
