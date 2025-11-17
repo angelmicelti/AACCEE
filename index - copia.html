@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Añade esto dentro del <head> -->
+	<link rel="manifest" href="manifest.json">
+	<meta name="theme-color" content="#06b6d4">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-16x16.png">
+
+
+	<!-- Para iOS -->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<meta name="apple-mobile-web-app-title" content="Actividades Extraescolares">
+	<link rel="apple-touch-icon" href="icons/icon-152x152.png">
+	
+    <!-- Para Apple devices -->
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180x180.png">
+
+
+    <title>Actividades Extraescolares | IES Virgen de Villadiego</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f1f5f9;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .glass {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, #06b6d4 0%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="container mx-auto px-4 py-6">
+        <!-- Encabezado -->
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">
+                Actividades Extraescolares
+            </h1>
+            <h2 class="text-xl text-gray-300 font-light">
+                IES Virgen de Villadiego | Curso 2025-2026
+            </h2>
+        </header>
+
+        <!-- Barra de Filtros -->
+        <div class="mb-10">
+            <div class="glass rounded-xl p-4 shadow-lg">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <!-- Filtro de Nivel -->
+                    <div class="flex-1">
+                        <label for="filtro-nivel" class="block text-sm font-medium text-gray-400 mb-1">Nivel:</label>
+                        <select id="filtro-nivel" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white">
+                            <option value="Todos">Todos los niveles</option>
+                            <option value="1º ESO">1º ESO</option>
+                            <option value="2º ESO">2º ESO</option>
+                            <option value="3º ESO">3º ESO</option>
+                            <option value="4º ESO">4º ESO</option>
+                        </select>
+                    </div>
+    
+                    <!-- Filtro de Organizador -->
+                    <div class="flex-1">
+                        <label for="filtro-organizador" class="block text-sm font-medium text-gray-400 mb-1">Organizador:</label>
+                        <select id="filtro-organizador" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white" multiple size="3">
+                            <option value="Todos" selected>Todos los organizadores</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Checkbox Naturaleza -->
+                    <div class="flex items-center gap-2">
+                        <input id="filtro-naturaleza" type="checkbox" checked class="w-5 h-5 text-green-500 bg-gray-700 border-gray-600 rounded">
+                        <label for="filtro-naturaleza" class="text-gray-200">Mostrar Taller de Naturaleza</label>
+                    </div>
+                </div>
+                
+                <!-- Contador y reset -->
+                <div class="mt-4 flex justify-between items-center">
+                    <div id="contador-resultados" class="text-sm text-gray-400">
+                        <span id="numero-actividades">0</span> actividades encontradas
+                    </div>
+                    <button id="reset-filtros" class="text-sm text-cyan-400 hover:text-cyan-300">
+                        Restablecer filtros
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de Actividades -->
+        <main id="lista-actividades" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+            <!-- Las actividades aparecerán aquí -->
+        </main>
+
+        <!-- Mensaje de "No hay resultados" -->
+        <div id="no-resultados" class="hidden text-center py-10">
+            <div class="max-w-md mx-auto">
+                <i class="fas fa-search text-4xl text-gray-600 mb-4"></i>
+                <h3 class="text-xl font-bold text-gray-300 mb-2">No se encontraron actividades</h3>
+                <p class="text-gray-500">Prueba a cambiar los filtros.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pie de página -->
+    <footer class="text-center text-gray-500 text-sm py-6">
+        2025 - Ángel Millán León
+    </footer>
+
+    <script>
+        // Base de datos de actividades
+        const actividades = [
+            {
+                id: 1,
+                titulo: "Visita a CERRO DEL HIERRO y senderismo por la ribera del Huéznar. Museo del agua en Puebla de los Infantes.",
+                niveles: ["1º ESO"],
+                organizador: ["Departamento de Ciencias Naturales", "Departamento de Educación Física", "Departamento de Geografía e Historia"],
+                tipo: "Extraescolar",
+                trimestre: "1º Trimestre"
+            },
+            {
+                id: 2,
+                titulo: "CÓRDOBA: Visita monumental y matemática a la Mezquita y Judería.",
+                niveles: ["2º ESO"],
+                organizador: ["Departamento de Geografía e Historia", "Departamento de Matemáticas"],
+                tipo: "Extraescolar",
+                trimestre: "1º Trimestre"
+            },
+            {
+                id: 3,
+                titulo: "Visita al Parlamento en Sevilla y Museo del Mudéjar en SEVILLA. También un proyecto social.",
+                niveles: ["3º ESO"],
+                organizador: ["Departamento de Geografía e Historia", "Departamento de Dibujo"],
+                tipo: "Extraescolar",
+                trimestre: "1º Trimestre"
+            },
+            {
+                id: 4,
+                titulo: "Visita a la ciudad de CÁDIZ para visitar los escenarios relacionados con la constitución de 1812.",
+                niveles: ["4º ESO"],
+                organizador: ["Departamento de Geografía e Historia"],
+                tipo: "Extraescolar",
+                trimestre: "1º Trimestre"
+            },
+            {
+                id: 5,
+                titulo: "Senderismo (Semana de Andalucía)",
+                niveles: ["1º ESO", "2º ESO", "3º ESO", "4º ESO"],
+                organizador: ["IES"],
+                tipo: "Extraescolar",
+                trimestre: "Semana de Andalucía"
+            },
+            {
+                id: 6,
+                titulo: "Concierto didáctico de la ROSS en ALCALÁ DE GUADAÍRA.",
+                niveles: ["1º ESO"],
+                organizador: ["Departamento de Música"],
+                tipo: "Extraescolar",
+                trimestre: "2º Trimestre"
+            },
+            {
+                id: 7,
+                titulo: "Necrópolis y arte religioso en CARMONA o Patrimonio de ALCALÁ DE GUADAÍRA.",
+                niveles: ["2º ESO"],
+                organizador: ["Departamento de Geografía e Historia"],
+                tipo: "Extraescolar",
+                trimestre: "2º Trimestre"
+            },
+            {
+                id: 8,
+                titulo: "Visita a SEVILLA para ver la obra de teatro 'Verdad' así como la imaginería procesional.",
+                niveles: ["3º ESO"],
+                organizador: ["Departamento de Lengua", "Departamento de Geografía e Historia"],
+                tipo: "Extraescolar",
+                trimestre: "2º Trimestre"
+            },
+            {
+                id: 9,
+                titulo: "Visita a SEVILLA para ver la obra de teatro 'Lazarillo de Tormes' y el FABLAB.",
+                niveles: ["3º ESO"],
+                organizador: ["Departamento de Lengua", "Departamento de Tecnología"],
+                tipo: "Extraescolar",
+                trimestre: "2º Trimestre"
+            },
+            {
+                id: 10,
+                titulo: "Visita a SEVILLA para ver 'Casa de Bernarda Alba', la Sevilla de la EXPO del 29 y museos (Bellas artes o Caixaforum).",
+                niveles: ["4º ESO"],
+                organizador: ["Departamento de Lengua", "Departamento de Geografía e Historia", "Departamento de Dibujo"],
+                tipo: "Extraescolar",
+                trimestre: "2º Trimestre"
+            },
+            {
+                id: 11,
+                titulo: "Senderismo por el entorno local (Trimestral)",
+                niveles: ["1º ESO"],
+                organizador: ["Departamento de Educación Física"],
+                tipo: "Extraescolar",
+                trimestre: "2º Trimestre"
+            },
+            {
+                id: 12,
+                titulo: "Senderismo por el entorno local (Trimestral)",
+                niveles: ["2º ESO"],
+                organizador: ["Departamento de Educación Física"],
+                tipo: "Extraescolar",
+                trimestre: "1º Trimestre"
+            },
+            {
+                id: 13,
+                titulo: "Senderismo por el entorno local (Trimestral)",
+                niveles: ["3º ESO"],
+                organizador: ["Departamento de Educación Física"],
+                tipo: "Extraescolar",
+                trimestre: "2º Trimestre"
+            },
+            {
+                id: 14,
+                titulo: "Senderismo por el entorno local (Trimestral)",
+                niveles: ["4º ESO"],
+                organizador: ["Departamento de Educación Física"],
+                tipo: "Extraescolar",
+                trimestre: "2º Trimestre"
+            },
+            {
+                id: 15,
+                titulo: "Visita a ITÁLICA.",
+                niveles: ["1º ESO"],
+                organizador: ["Departamento de Geografía e Historia", "Departamento de Dibujo"],
+                tipo: "Extraescolar",
+                trimestre: "3º Trimestre"
+            },
+            {
+                id: 16,
+                titulo: "Visita a SEVILLA para ver la huella monumental de estilos artísticos (medieval y moderna).",
+                niveles: ["2º ESO"],
+                organizador: ["Departamento de Geografía e Historia", "Departamento de Dibujo"],
+                tipo: "Extraescolar",
+                trimestre: "3º Trimestre"
+            },
+            {
+                id: 17,
+                titulo: "Visita a HUELVA, a las Minas de Río Tinto.",
+                niveles: ["3º ESO"],
+                organizador: ["Departamento de Ciencias Naturales", "Departamento de Inglés", "Departamento de Tecnología"],
+                tipo: "Extraescolar",
+                trimestre: "3º Trimestre"
+            },
+            {
+                id: 18,
+                titulo: "Feria de las Ciencias y Caixaforum en SEVILLA.",
+                niveles: ["4º ESO"],
+                organizador: ["Departamento de Matemáticas", "Departamento de Tecnología", "Departamento de Ciencias Naturales"],
+                tipo: "Extraescolar",
+                trimestre: "3º Trimestre"
+            },
+            {
+                id: 19,
+                titulo: "LA AVENTURA DE PARTICIPAR EN EL HUERTO ESCOLAR",
+                niveles: ["1º ESO"],
+                organizador: ["Grupo Senderista"],
+                tipo: "Naturaleza",
+                trimestre: "Varios"
+            },
+            {
+                id: 20,
+                titulo: "'CAMINOS QUE ENSEÑAN': SENDERO INTERPRETATIVO RUTA DEL RETORTILLO",
+                niveles: ["2º ESO"],
+                organizador: ["Grupo Senderista"],
+                tipo: "Naturaleza",
+                trimestre: "Varios"
+            },
+            {
+                id: 21,
+                titulo: "TALLER: 'LA CULTURA POPULAR EN EL USO Y CONOCIMIENTOS DE PLANTAS MEDICINALES Y CULINARIAS'",
+                niveles: ["1º ESO", "3º ESO"],
+                organizador: ["Trinidad Herrero Campo"],
+                tipo: "Naturaleza",
+                trimestre: "Varios"
+            },
+            {
+                id: 22,
+                titulo: "CHARLA-COLOQUIO: 'PÁJAROS Y AVES EN EL TÉRMINO DE PEÑAFLOR'",
+                niveles: ["4º ESO"],
+                organizador: ["David Viñuales Meléndez"],
+                tipo: "Naturaleza",
+                trimestre: "Varios"
+            },
+            {
+                id: 23,
+                titulo: "COLOCACIÓN DE CAJAS-NIDO",
+                niveles: ["1º ESO"],
+                organizador: ["David Viñuales Meléndez"],
+                tipo: "Naturaleza",
+                trimestre: "Varios"
+            },
+            {
+                id: 24,
+                titulo: "OBSERVACIÓN DE PÁJAROS Y AVES POR LA ORILLA DEL RÍO GUADALQUIVIR",
+                niveles: ["1º ESO"],
+                organizador: ["David Viñuales Meléndez"],
+                tipo: "Naturaleza",
+                trimestre: "Varios"
+            },
+            {
+                id: 25,
+                titulo: "TALLER: 'NATURALEZA ARTESANA Y PRESERVACIÓN FLORAL'",
+                niveles: ["1º ESO", "2º ESO"],
+                organizador: ["Ana López Bravo"],
+                tipo: "Naturaleza",
+                trimestre: "Varios"
+            },
+            {
+                id: 26,
+                titulo: "CELEBRACIÓN DÍA DE ANDALUCÍA: REALIZACIÓN DEL SENDERO DEHESA Y CASTILLO DE ALMENARA",
+                niveles: ["1º ESO", "2º ESO", "3º ESO", "4º ESO"],
+                organizador: ["Grupo Senderista"],
+                tipo: "Naturaleza",
+                trimestre: "Semana de Andalucía"
+            },
+            {
+                id: 27,
+                titulo: "CHARLA-COLOQUIO: 'TRABAJANDO PARA EL MEDIOAMBIENTE'",
+                niveles: ["4º ESO"],
+                organizador: ["Amadeo Quiñones Cabello"],
+                tipo: "Naturaleza",
+                trimestre: "Varios"
+            },
+            {
+                id: 28,
+                titulo: "PROYECCIÓN: 'GUADALQUIVIR'",
+                niveles: ["1º ESO"],
+                organizador: ["Grupo Senderista"],
+                tipo: "Naturaleza",
+                trimestre: "Varios"
+            },
+            {
+                id: 29,
+                titulo: "PROYECCIÓN: 'DOÑANA'",
+                niveles: ["2º ESO"],
+                organizador: ["Grupo Senderista"],
+                tipo: "Naturaleza",
+                trimestre: "Varios"
+            },
+            {
+                id: 30,
+                titulo: "CHARLA-COLOQUIO: 'OTRO ENFOQUE EN EL ESTUDIO DE LOS PÁJAROS Y AVES'",
+                niveles: ["1º ESO"],
+                organizador: ["David Viñuales Meléndez"],
+                tipo: "Naturaleza",
+                trimestre: "Varios"
+            }
+        ];
+
+        // Referencias a elementos del DOM
+        const filtroNivel = document.getElementById('filtro-nivel');
+        const filtroOrganizador = document.getElementById('filtro-organizador');
+        const filtroNaturaleza = document.getElementById('filtro-naturaleza');
+        const listaActividades = document.getElementById('lista-actividades');
+        const noResultados = document.getElementById('no-resultados');
+        const numeroActividades = document.getElementById('numero-actividades');
+        const resetFiltros = document.getElementById('reset-filtros');
+
+        // Función para poblar el filtro de organizadores
+        function poblarFiltroOrganizadores() {
+            const organizadores = [...new Set(actividades.flatMap(a => a.organizador))].sort();
+            
+            // Limpiar opciones existentes (excepto la primera)
+            while (filtroOrganizador.options.length > 1) {
+                filtroOrganizador.remove(1);
+            }
+            
+            organizadores.forEach(org => {
+                const option = document.createElement('option');
+                option.value = org;
+                option.textContent = org;
+                filtroOrganizador.appendChild(option);
+            });
+        }
+
+        // Función para crear una tarjeta de actividad
+        function createActivityCard(actividad) {
+            const card = document.createElement('div');
+            card.className = 'bg-gray-800 rounded-lg overflow-hidden border border-gray-700';
+            
+            const tipoColor = actividad.tipo === 'Naturaleza' ? 'bg-green-600' : 'bg-blue-600';
+            
+            card.innerHTML = `
+                <div class="p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="inline-block ${tipoColor} text-white text-xs font-semibold px-2 py-1 rounded">
+                            ${actividad.tipo}
+                        </span>
+                        <span class="text-xs text-gray-400">${actividad.trimestre}</span>
+                    </div>
+                    <h3 class="font-semibold text-gray-100 mb-3">${actividad.titulo}</h3>
+                    <p class="text-sm text-gray-400 mb-2">
+                        <span class="font-medium">Organiza:</span> ${actividad.organizador.join(', ')}
+                    </p>
+                    <div class="flex flex-wrap gap-1">
+                        ${actividad.niveles.map(nivel => `
+                            <span class="inline-block bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded">
+                                ${nivel}
+                            </span>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // Función principal para renderizar actividades
+        function renderActividades() {
+            const nivelSeleccionado = filtroNivel.value;
+            const mostrarNaturaleza = filtroNaturaleza.checked;
+            
+            // Obtener organizadores seleccionados
+            const selectedOrgs = [...filtroOrganizador.options]
+                .filter(option => option.selected && option.value !== 'Todos')
+                .map(option => option.value);
+
+            // Filtrar actividades
+            const actividadesFiltradas = actividades.filter(actividad => {
+                if (!mostrarNaturaleza && actividad.tipo === 'Naturaleza') {
+                    return false;
+                }
+                
+                if (nivelSeleccionado !== 'Todos' && !actividad.niveles.includes(nivelSeleccionado)) {
+                    return false;
+                }
+                
+                if (selectedOrgs.length > 0) {
+                    const hasMatch = actividad.organizador.some(org => selectedOrgs.includes(org));
+                    if (!hasMatch) {
+                        return false;
+                    }
+                }
+                
+                return true;
+            });
+
+            // Actualizar contador
+            numeroActividades.textContent = actividadesFiltradas.length;
+            
+            // Limpiar lista
+            listaActividades.innerHTML = '';
+            
+            // Mostrar resultados o mensaje de no resultados
+            if (actividadesFiltradas.length === 0) {
+                noResultados.classList.remove('hidden');
+            } else {
+                noResultados.classList.add('hidden');
+                
+                // Añadir actividades a la lista
+                actividadesFiltradas.forEach(actividad => {
+                    const card = createActivityCard(actividad);
+                    listaActividades.appendChild(card);
+                });
+            }
+        }
+
+        // Función para restablecer filtros
+        function resetearFiltros() {
+            filtroNivel.value = 'Todos';
+            filtroNaturaleza.checked = true;
+            
+            // Deseleccionar todas las opciones excepto "Todos"
+            for (let i = 0; i < filtroOrganizador.options.length; i++) {
+                filtroOrganizador.options[i].selected = (filtroOrganizador.options[i].value === 'Todos');
+            }
+            
+            renderActividades();
+        }
+
+        // Event listeners
+        filtroNivel.addEventListener('change', renderActividades);
+        filtroOrganizador.addEventListener('change', renderActividades);
+        filtroNaturaleza.addEventListener('change', renderActividades);
+        resetFiltros.addEventListener('click', resetearFiltros);
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            poblarFiltroOrganizadores();
+            renderActividades();
+        });
+    </script>
+	<script>
+  // Registrar el Service Worker
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('sw.js')
+        .then(function(registration) {
+          console.log('Service Worker registrado con éxito: ', registration.scope);
+        })
+        .catch(function(error) {
+          console.log('Error al registrar el Service Worker: ', error);
+        });
+    });
+  }
+
+  // Detectar si la aplicación se ejecuta en modo standalone (PWA instalada)
+  window.addEventListener('DOMContentLoaded', () => {
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      console.log('La aplicación se está ejecutando como PWA');
+    }
+  });
+</script>
+</body>
+</html>
